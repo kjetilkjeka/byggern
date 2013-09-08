@@ -16,6 +16,7 @@ int main(void)
 	fdevopen(USART_Transmit, USART_Receive);
 	sei();
 	
+	
 	USART_Transmit_String("sending fungerer, ");
 	printf("tester mottak    \n");
 	
@@ -27,8 +28,6 @@ int main(void)
 	
 	
 	SRAM_test();
-	
-	
 	
 	while(1)
 	{
@@ -54,7 +53,7 @@ void SRAM_test(void)
 	rerrors = 0;
 	unsigned char testvalue;
 	printf("Starting SRAM test...\r\n");
-	for (i = 1; i < 0x800; i++) {
+	for (i = 0; i < 0x800; i++) {
 		testvalue = ~(i % 256);
 		ext_ram[i] = testvalue;
 		if (ext_ram[i] != testvalue) {
