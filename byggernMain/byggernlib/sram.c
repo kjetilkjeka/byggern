@@ -1,3 +1,5 @@
+#include <avr/io.h>
+
 void SRAM_test(void)
 {
 	volatile char *ext_ram = (char *) 0x1800; // Start address for the SRAM
@@ -24,7 +26,7 @@ void SRAM_test(void)
 	printf("SRAM test completed with %d errors in write phase and %d errors in read phase\r\n", werrors, rerrors);
 }
 
-void SRAM_init(void)
+/*void SRAM_init(void)
 {
 	MCUCR |= (1<<SRE); // setting SRE mode (wich will allow us to use the external memory interface)
 		
@@ -32,3 +34,4 @@ void SRAM_init(void)
 	SFIOR &= ~((1<<XMM1)|(1<<XMM0));
 	SFIOR |= (1<<XMM2);	
 }
+*/

@@ -6,26 +6,31 @@
 #include <stdlib.h>
 #include "byggernlib/serialio.h"
 #include "byggernlib/sram.h"
+#include "byggernlib/extmem.h"
+#include "byggernlib/adc.h"
 
-
-int main(void)
+void MAIN_init(void)
 {
-	
-	
-	USART_Init();	
-	SRAM_init();
+	USART_Init(MYUBRR);
+	EXTMEM_init();
+
 	fdevopen(USART_Transmit, USART_Receive);
 	sei();
-	
+}
+
+int main(void)
+{	
+	MAIN_init();
 	
 	USART_Transmit_String("sending fungerer, ");
-	printf("tester mottak    \n");
+	//printf("tester mottak    \n");
 	
 		
-	SRAM_test();
+	//SRAM_test();
 	
 	while(1)
 	{
+			
 		
 	}		
 }
