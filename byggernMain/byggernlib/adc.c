@@ -1,9 +1,10 @@
+#include <avr/io.h>
+
 void ADC_init(void)
 {
 
 }
 
-#include <avr/io.h>
 
 char ADC_read(int port)
 {

@@ -8,6 +8,8 @@
 #include "byggernlib/sram.h"
 #include "byggernlib/extmem.h"
 #include "byggernlib/adc.h"
+#include "byggernlib/joystick.h"
+
 
 void MAIN_init(void)
 {
@@ -22,7 +24,7 @@ int main(void)
 {	
 	MAIN_init();
 	
-	USART_Transmit_String("sending fungerer, ");
+	//USART_Transmit_String("sending fungerer, ");
 	//printf("tester mottak    \n");
 	
 		
@@ -30,8 +32,10 @@ int main(void)
 	
 	while(1)
 	{
-			
 		
+		printf("%d", (int)JOYSTICK_direction());
+		
+		_delay_ms(1000);
 	}		
 }
 
