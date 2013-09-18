@@ -101,6 +101,15 @@
     <Compile Include="byggernlib\adc.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="byggernlib\oled.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\oled.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\font_5x7.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="byggernlib\joystick.h">
       <SubType>compile</SubType>
     </Compile>

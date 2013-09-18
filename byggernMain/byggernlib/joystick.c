@@ -14,6 +14,20 @@ int JOYSTICK_verPos()
 	return (int)((((int)pos) * 200.0) / 256.0) - 100.0;
 }
 
+int GLIDER_rightPos()
+{
+	char pos = ADC_read(2);
+	return (int)((((int)pos) * 200.0) / 256.0) - 100.0;
+}
+
+int GLIDER_leftPos()
+{
+	char pos = ADC_read(3);
+	return (int)((((int)pos) * 200.0) / 256.0) - 100.0;
+}
+
+
+
 direction JOYSTICK_direction()
 {
 	int horPos = JOYSTICK_horPos();
