@@ -29,16 +29,21 @@ int main(void)
 {	
 	MAIN_init();
 	
-	/*
+	
+	
 	for(int i = 0; i < 1024; i++)
 	{
 		//_delay_ms(500);
 		//(i % 2 == 0 ? OLED_writeData(0x00) : OLED_writeData(0xff));
 		OLED_writeData(0x00);
 	}
-	*/
+	
 
-	OLED_writeChar(33);
+	int j = 322;
+	int k = 12;
+	OLED_writeChar((char)33);
+	
+	
 	OLED_writeData(0x00);
 	
 	/*

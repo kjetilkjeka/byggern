@@ -1,5 +1,6 @@
 #include "font_5x7.h"
 #include "serialio.h"
+#include <avr/pgmspace.h>
 
 volatile char *OLEDcommand = 0x1000;
 volatile char *OLEDdata = 0x1200;
@@ -16,19 +17,15 @@ void OLED_writeData(char c)
 	*OLEDdata = c;
 }
 
-void OLED_writeChar(int i)
+void OLED_writeChar(char c)
 {
+		
+	for(int j = 0; j < 5; j++)
+	{
+		OLED_writeData(pgm_read_byte(&myfont[(int)c][j]));
+	}
 	
-	//i = 33;
 	
-	USART_Transmit(i);
-	
-	
-	OLED_writeData(myfont[i][0]);
-	OLED_writeData(myfont[i][1]);
-	OLED_writeData(myfont[i][2]);
-	OLED_writeData(myfont[i][3]);
-	OLED_writeData(myfont[i][4]);
 	
 }
 
