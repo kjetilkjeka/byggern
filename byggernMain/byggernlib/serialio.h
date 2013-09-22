@@ -1,5 +1,5 @@
-#ifndef ADD_H
-#define ADD_H
+#ifndef SERIALIO_H
+#define SERIALIO_H
 
 #define FOSC 4915200UL		// Clock Speed
 #define BAUD 9600

@@ -1,5 +1,5 @@
-#ifndef INCFILE1_H_
-#define INCFILE1_H_
+#ifndef JOYSTICK_H_
+#define JOYSTICK_H_
 
 typedef enum {LEFT, RIGHT, UP, DOWN, NEUTRAL} direction;
 

@@ -19,7 +19,8 @@ void MAIN_init(void)
 	EXTMEM_init();
 	OLED_init();
 
-	fdevopen(USART_Transmit, USART_Receive);
+	//fdevopen(USART_Transmit, USART_Receive);
+	fdevopen(OLED_writeChar, USART_Receive); //probably unsafe
 	sei();
 }
 
@@ -29,37 +30,18 @@ int main(void)
 {	
 	MAIN_init();
 	
-	
-	
-	for(int i = 0; i < 1024; i++)
-	{
-		//_delay_ms(500);
-		//(i % 2 == 0 ? OLED_writeData(0x00) : OLED_writeData(0xff));
-		OLED_writeData(0x00);
-	}
-	
+	OLED_blankScreen();
+	OLED_setPage(0);
+	OLED_setCursor(0);
+	OLED_writeString("lol");
 
-	int j = 322;
-	int k = 12;
-	OLED_writeChar((char)33);
-	
-	
-	OLED_writeData(0x00);
 	
 	/*
-	for(int i = 0; i < 27; i++)
-	{
-		OLED_writeChar(33 + i);
-		OLED_writeData(0x00);
-			
-	}
+	SRAM_test();
+	
+	for(int i = 0; i < 2048; i++)
+		SRAM_test2(i);
 	*/
-	
-	
-	
-	
-	
-	
 	
 	while(1)
 	{

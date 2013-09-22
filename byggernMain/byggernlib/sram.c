@@ -26,6 +26,35 @@ void SRAM_test(void)
 	printf("SRAM test completed with %d errors in write phase and %d errors in read phase\r\n", werrors, rerrors);
 }
 
+
+void SRAM_test2(int place)
+{
+	volatile char *ext_ram = (char *) 0x1800;
+	int errors = 0;
+	int sucess = 0;
+	for(int k = 0; k < 0xff; k++)
+	{
+		ext_ram[place] = k;
+		
+		int temp = ext_ram[place];
+		if (temp == k)
+		{
+			sucess++;
+			//printf("Sram sucess");
+		} else 
+		{
+			errors++;
+			printf("Sram fuckup writing ext_ram[%d] = %02X (should be %02X)\r\n", place, temp, k);	
+		
+		}
+	}	
+	
+	if(errors != 0)
+		printf("success: %d, errors: %d \r\n", sucess, errors);
+	
+}		
+
+
 /*void SRAM_init(void)
 {
 	MCUCR |= (1<<SRE); // setting SRE mode (wich will allow us to use the external memory interface)
