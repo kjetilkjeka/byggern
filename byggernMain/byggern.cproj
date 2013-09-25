@@ -33,7 +33,7 @@
       </OverrideVtorValue>
       <Channel>
         <host>127.0.0.1</host>
-        <port>62117</port>
+        <port>49364</port>
         <ssl>False</ssl>
       </Channel>
       <ToolOptions>
@@ -101,10 +101,10 @@
     <Compile Include="byggernlib\adc.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="byggernlib\menus.c">
+    <Compile Include="byggernlib\menu.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="byggernlib\menus.h">
+    <Compile Include="byggernlib\menu.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\oled.h">

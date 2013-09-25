@@ -17,12 +17,12 @@ void OLED_writeData(char c)
 	*OLEDdata = c;
 }
 
-void OLED_writeChar(char c)
+void OLED_writeChar(char c, int highlighted)
 {
 		
 	for(int j = 0; j < 5; j++)
 	{
-		OLED_writeData(pgm_read_byte(&myfont[(int)c - 32][j]));
+		(highlighted == 0 ? OLED_writeData(pgm_read_byte(&myfont[(int)c - 32][j])) : OLED_writeData(~pgm_read_byte(&myfont[(int)c - 32][j])));
 	}
 		
 }
@@ -59,12 +59,12 @@ void OLED_blankScreen(void)
 }
 
 
-void OLED_writeString(char* s)
+void OLED_writeString(char* s, int highlighted)
 {
 	int i = 0;
 	while(s[i] != (char)0)
 	{
-		OLED_writeChar(s[i]);
+		OLED_writeChar(s[i], highlighted);
 		i++;		
 	}
 }

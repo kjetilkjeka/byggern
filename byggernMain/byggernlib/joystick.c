@@ -4,13 +4,13 @@
 
 int JOYSTICK_horPos()
 {
-	char pos = ADC_read(1);
+	char pos = ADC_read(0);
 	return (int)((((int) pos) * 200.0) / 256.0) - 100.0;
 }
 
 int JOYSTICK_verPos()
 {
-	char pos = ADC_read(0);
+	char pos = ADC_read(1);
 	return (int)((((int)pos) * 200.0) / 256.0) - 100.0;
 }
 

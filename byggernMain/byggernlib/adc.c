@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <avr/delay.h>
 
 void ADC_init(void)
 {
