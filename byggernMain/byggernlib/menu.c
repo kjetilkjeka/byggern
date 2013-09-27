@@ -3,45 +3,101 @@
 #include <avr/delay.h>
 #include <avr/pgmspace.h>
 #include "menu.h"
+#include <stdlib.h>
 
 
 
-/*
-void MENU_init(menu *mainMenu)
+
+void MENU_init(menu *currentMenu)
 {
-	(*mainMenu).names[0] = "nasdasdames0";
-	(*mainMenu).names[1] = "names1";
-	(*mainMenu).names[2] = "names2";
-	(*mainMenu).names[3] = "names3";
-	(*mainMenu).names[4] = "names4";
-	(*mainMenu).names[5] = "names5";
-	(*mainMenu).names[6] = "names6";
-	(*mainMenu).names[7] = "names7";
-	
+		for(int i = 0; i < 8; i++)
+		{
+			(*currentMenu).names[i] = "";
+			(*currentMenu).submenu[i] = NULL;
+		}
+		(*currentMenu).up = NULL;
 }
-*/
 
-void MENU_pollJoystick(int *selected, menu *currentMenu)
+
+void MENU_pollJoystick(int *selected, menu **currentMenu)
 {
-	int menuLength = 8;
+	int menuLength = (**currentMenu).length;
 	
 	int verPos = JOYSTICK_verPos();
 	int horPos = JOYSTICK_horPos();
-	//printf("hor joystick pos: %d ver pos: %d \r\n", horPos, verPos);
 	
 	int threashold = 5;
 	
 	if(horPos > threashold){
-		currentMenu = ((*currentMenu).submenu[2]);
-		printf("selected: %d", *selected);
-		printf((*currentMenu).names[*selected]);
-	}		
+		if((**currentMenu).submenu[*selected] != NULL)
+		{
+			*currentMenu = ((**currentMenu).submenu[*selected]);
+			*selected = 0;
+		} else 
+		{
+			printf("selected: %d\n\r", *selected);
+		}			
+	} else if(horPos < -threashold)
+	{
+		if((**currentMenu).up != NULL)
+		{
+			*currentMenu = ((**currentMenu).up);
+		}		
+	}
 	
 	
-	if(verPos > threashold) *selected = *selected - 1 % menuLength;
-	if(verPos < -threashold) *selected = *selected + 1 % menuLength;
+	if(verPos > threashold) *selected = (*selected + menuLength - 1) % menuLength;
+	if(verPos < -threashold) *selected = (*selected + 1) % menuLength;
 	
 }	
+
+void MENU_start()
+{
+	menu *currentMenu;
+	
+	
+	menu mainMenu;
+	MENU_init(&mainMenu);
+	
+	mainMenu.length = 3;
+	mainMenu.names[0] = "names0";
+	mainMenu.names[1] = "lol";
+	mainMenu.names[2] = "Games";
+	
+	
+	menu gamesMenu;
+	MENU_init(&gamesMenu);
+	gamesMenu.up = &mainMenu;
+	
+	mainMenu.submenu[2] = &gamesMenu;
+	gamesMenu.length = 2;
+	gamesMenu.names[0] = "PingPong";
+	gamesMenu.names[1] = "snake";
+	
+	
+	menu lolMenu;
+	MENU_init(&lolMenu);
+	lolMenu.length = 2;
+	lolMenu.names[0] = "lol0";
+	lolMenu.names[1] = "lol1";
+	lolMenu.up = &mainMenu;
+	
+	mainMenu.submenu[1] = &lolMenu;
+	
+	currentMenu = &mainMenu;
+	
+	int selected = 0;
+	
+	MENU_print(selected, *currentMenu);
+	
+	while(1)
+	{
+		
+		MENU_pollJoystick(&selected, &currentMenu);
+		MENU_print(selected, *currentMenu);
+		_delay_ms(1000);
+	}
+}
 
 
 void MENU_print(int selected, menu currentMenu)
