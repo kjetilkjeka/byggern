@@ -33,7 +33,7 @@
       </OverrideVtorValue>
       <Channel>
         <host>127.0.0.1</host>
-        <port>50220</port>
+        <port>50758</port>
         <ssl>False</ssl>
       </Channel>
       <ToolOptions>
@@ -99,6 +99,18 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\adc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\MCP2515.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\MCP2515.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\spi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\spi.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\menu.c">
