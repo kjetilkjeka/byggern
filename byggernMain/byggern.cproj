@@ -101,6 +101,12 @@
     <Compile Include="byggernlib\adc.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="byggernlib\can.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\can.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="byggernlib\MCP2515.h">
       <SubType>compile</SubType>
     </Compile>
