@@ -2,7 +2,9 @@
 #define CAN_H_
 
 
+void CAN_init();
+void CAN_send();
+int CAN_recieve();
 
 
-
-#endif /* CAN_H_ */
+#endif 

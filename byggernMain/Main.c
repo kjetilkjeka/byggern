@@ -11,17 +11,20 @@
 //#include "byggernlib/joystick.h"
 //#include "byggernlib/oled.h"
 //#include "byggernlib/menu.h"
+#include "byggernlib/can.h"
 
 
 
 void MAIN_init(void)
 {
 	USART_Init(MYUBRR);
+	fdevopen(USART_Transmit, USART_Receive);
 	EXTMEM_init();
 	OLED_init();
 	SPI_Init();
+	CAN_init();
 
-	fdevopen(USART_Transmit, USART_Receive);
+	//fdevopen(USART_Transmit, USART_Receive);	
 	//fdevopen(OLED_writeChar, USART_Receive); //probably unsafe
 	sei();
 }
@@ -32,14 +35,18 @@ int main(void)
 {	
 	MAIN_init();
 	
-	//MENU_start();
-	
-	
 	printf("initialization\n\r");
+	
+	CAN_send();
+	
+	_delay_ms(5000);
+	
+	printf("the number recieved was: %d \r\n", CAN_recieve());
+	
 	
 	while(1)
 	{
-		SPI_Transmit(0b11111110);	
+		
 	}
 }
 

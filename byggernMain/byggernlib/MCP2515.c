@@ -14,7 +14,7 @@ char MCP_read(char adr)
 	SPI_CS(0);
 	SPI_CS(1);
 	SPI_Transmit(adr);
-	char data = SPI_trasmit(0x00);
+	char data = SPI_Transmit(0x00);
 	SPI_CS(0);
 	return data;
 }
@@ -27,7 +27,7 @@ char MCP_readRxBuffer(int location)
 		
 	
 	SPI_CS(1);
-	SPI_Transmit(0b10010000 + location*2)
+	SPI_Transmit(0b10010000 + location*2);
 	char data = SPI_Transmit(0x00);
 	SPI_CS(0);
 	return data;
@@ -72,9 +72,13 @@ void MCP_rxStatus()
 	return;
 }
 
-void MCP_bitModify()
+void MCP_bitModify(char adr, char maskByte, char data)
 {
-	// no support yet
+	SPI_CS(1);
+	SPI_Transmit(0b00000101);
+	SPI_Transmit(adr);
+	SPI_Transmit(maskByte);
+	SPI_Transmit(data);
 	return;
 }
 
