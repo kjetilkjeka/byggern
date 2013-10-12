@@ -3,8 +3,8 @@
 
 
 void CAN_init();
-void CAN_send();
-int CAN_recieve();
+void CAN_send(uint16_t ID, int dataByte, int* data);
+int* CAN_recieve();
 
 
 #endif 

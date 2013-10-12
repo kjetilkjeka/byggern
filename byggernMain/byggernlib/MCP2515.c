@@ -11,8 +11,6 @@ char MCP_read(char adr)
 {
 	SPI_CS(1);
 	SPI_Transmit(0b00000011);
-	SPI_CS(0);
-	SPI_CS(1);
 	SPI_Transmit(adr);
 	char data = SPI_Transmit(0x00);
 	SPI_CS(0);
@@ -52,11 +50,19 @@ void MCP_loadTxBuffer(int abc)
 
 void MCP_RTS(int nnn)
 {
-	SPI_CS(1);
+	//////////////////////////////
+	// BROKEN!! fix this one
+	/////////////////////////////
+	
+	
 	if(nnn < 0 || nnn > 7)
 		return;
 		
+	SPI_CS(1);
+		
+	printf("RTS code: %u \r\n", (0b10000000 + nnn));
 	SPI_Transmit(0b10000000 + nnn);
+	SPI_CS(0);
 	
 }
 
@@ -79,6 +85,7 @@ void MCP_bitModify(char adr, char maskByte, char data)
 	SPI_Transmit(adr);
 	SPI_Transmit(maskByte);
 	SPI_Transmit(data);
+	SPI_CS(0);
 	return;
 }
 

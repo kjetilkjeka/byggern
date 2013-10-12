@@ -65,13 +65,30 @@
 #define RXB0SIDH 0x61
 #define RXB0SIDL 0x62
 
+#define RXB0D0 0x66 
+#define RXB0D1 0x67
+#define RXB0D2 0x68
+#define RXB0D3 0x69
+#define RXB0D4 0x6a
+#define RXB0D5 0x6b
+#define RXB0D6 0x6c
+#define RXB0D7 0x6d
 #define RXB1CTRL 0x70
 #define RXB1SIDH 0x71
 #define RXB1SIDL 0x72
 
+#define RXB1D0 0x76
+#define RXB1D1 0x77
+#define RXB1D2 0x78
+#define RXB1D3 0x79
+#define RXB1D4 0x7a
+#define RXB1D5 0x7b
+#define RXB1D6 0x7c
+#define RXB1D7 0x7d
 
 #define TXREQ 3
 
+//for CANINTE 0x2b
 #define RX0IE 0
 #define RX1IE 1
 #define TX0IE 2

@@ -37,11 +37,17 @@ int main(void)
 	
 	printf("initialization\n\r");
 	
-	CAN_send();
+	int dataBytes[8];
+	dataBytes[0] = 12;
+	dataBytes[1] = 72;
+	dataBytes[2] = 95;
+	CAN_send(582, 1, *dataBytes);
 	
-	_delay_ms(5000);
+	//_delay_ms(5000);
 	
-	printf("the number recieved was: %d \r\n", CAN_recieve());
+	int *result = CAN_recieve();
+	
+	//printf("sizeof int is: %d", sizeof(int));
 	
 	
 	while(1)
