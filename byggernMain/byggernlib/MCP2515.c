@@ -1,11 +1,20 @@
 #include "spi.h"
+#include <avr/delay.h>
+#include "MCP2515.h"
 
 void MCP_reset(void)
 {
-	SPI_CS(1);
-	SPI_Transmit(0b11000000);
-	SPI_CS(0);
+	
+	do
+	{
+		SPI_CS(1);
+		SPI_Transmit(0b11000000);
+		SPI_CS(0);
+		_delay_us(100);
+	} while((MCP_read(CANCTRL) & 0b11100000)^0b10000000);
+	
 }
+
 
 char MCP_read(char adr)
 {
@@ -48,23 +57,19 @@ void MCP_loadTxBuffer(int abc)
 	return;
 }
 
+
 void MCP_RTS(int nnn)
 {
-	//////////////////////////////
-	// BROKEN!! fix this one
-	/////////////////////////////
-	
-	
+
 	if(nnn < 0 || nnn > 7)
 		return;
 		
 	SPI_CS(1);
-		
-	printf("RTS code: %u \r\n", (0b10000000 + nnn));
 	SPI_Transmit(0b10000000 + nnn);
 	SPI_CS(0);
 	
 }
+
 
 void MCP_readStatus()
 {
@@ -86,6 +91,5 @@ void MCP_bitModify(char adr, char maskByte, char data)
 	SPI_Transmit(maskByte);
 	SPI_Transmit(data);
 	SPI_CS(0);
-	return;
 }
 

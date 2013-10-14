@@ -65,6 +65,7 @@
 #define RXB0SIDH 0x61
 #define RXB0SIDL 0x62
 
+#define RXB0DLC 0x65
 #define RXB0D0 0x66 
 #define RXB0D1 0x67
 #define RXB0D2 0x68
@@ -77,6 +78,7 @@
 #define RXB1SIDH 0x71
 #define RXB1SIDL 0x72
 
+#define RXB1DLC 0x75
 #define RXB1D0 0x76
 #define RXB1D1 0x77
 #define RXB1D2 0x78
