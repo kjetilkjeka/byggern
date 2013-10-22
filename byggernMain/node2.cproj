@@ -4,17 +4,17 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>6.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8</ToolchainName>
-    <ProjectGuid>{4abcb4dd-db7e-4ec6-bd2a-c533c7e9bfbe}</ProjectGuid>
-    <avrdevice>ATmega162</avrdevice>
+    <ProjectGuid>{2a0db3af-dc51-4c58-97f7-3a2728b978b2}</ProjectGuid>
+    <avrdevice>ATmega128</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>Executable</OutputType>
     <Language>C</Language>
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>GccApplication2</AssemblyName>
-    <Name>byggern</Name>
-    <RootNamespace>GccApplication2</RootNamespace>
+    <AssemblyName>node2</AssemblyName>
+    <Name>node2</Name>
+    <RootNamespace>node2</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -24,19 +24,19 @@
     <avrtoolinterface>JTAG</avrtoolinterface>
     <avrtool>com.atmel.avrdbg.tool.jtagicemkii</avrtool>
     <com_atmel_avrdbg_tool_jtagicemkii>
-      <ToolType>com.atmel.avrdbg.tool.jtagicemkii</ToolType>
-      <ToolName>JTAGICE mkII</ToolName>
-      <ToolNumber>00B0000066B5</ToolNumber>
-      <KeepTimersRunning>true</KeepTimersRunning>
-      <OverrideVtor>false</OverrideVtor>
-      <OverrideVtorValue>
+      <ToolType xmlns="">com.atmel.avrdbg.tool.jtagicemkii</ToolType>
+      <ToolName xmlns="">JTAGICE mkII</ToolName>
+      <ToolNumber xmlns="">00B0000066B5</ToolNumber>
+      <KeepTimersRunning xmlns="">true</KeepTimersRunning>
+      <OverrideVtor xmlns="">false</OverrideVtor>
+      <OverrideVtorValue xmlns="">
       </OverrideVtorValue>
-      <Channel>
+      <Channel xmlns="">
         <host>127.0.0.1</host>
-        <port>62656</port>
+        <port>62759</port>
         <ssl>False</ssl>
       </Channel>
-      <ToolOptions>
+      <ToolOptions xmlns="">
         <InterfaceName>JTAG</InterfaceName>
         <InterfaceProperties>
           <JtagDbgClock>200000</JtagDbgClock>
@@ -95,6 +95,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="byggernlib\" />
+    <Folder Include="node2\" />
+    <Folder Include="node2\Debug\" />
+    <Folder Include="node2\node2\" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="byggernlib\adc.c">
       <SubType>compile</SubType>
     </Compile>
@@ -107,16 +113,25 @@
     <Compile Include="byggernlib\can.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="byggernlib\MCP2515.h">
+    <Compile Include="byggernlib\extmem.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\extmem.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\font_5x7.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\joystick.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\joystick.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\MCP2515.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="byggernlib\spi.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="byggernlib\spi.c">
+    <Compile Include="byggernlib\MCP2515.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\menu.c">
@@ -125,31 +140,10 @@
     <Compile Include="byggernlib\menu.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="byggernlib\oled.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="byggernlib\oled.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="byggernlib\font_5x7.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="byggernlib\joystick.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="byggernlib\joystick.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="byggernlib\extmem.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="byggernlib\extmem.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="byggernlib\sram.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="byggernlib\sram.h">
+    <Compile Include="byggernlib\oled.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\serialio.c">
@@ -158,108 +152,42 @@
     <Compile Include="byggernlib\serialio.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="node1\Main.c">
+    <Compile Include="byggernlib\spi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\spi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\sram.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\sram.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="node2\Main.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="byggernlib" />
-    <Folder Include="node1\" />
-    <Folder Include="node1\Debug\" />
-    <Folder Include="node1\Debug\byggernlib\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="node1\Debug\byggern.eep">
+    <None Include="node2\Debug\makedep.mk">
       <SubType>compile</SubType>
     </None>
-    <None Include="node1\Debug\byggern.elf">
+    <None Include="node2\Debug\Makefile">
       <SubType>compile</SubType>
     </None>
-    <None Include="node1\Debug\byggern.hex">
+    <None Include="node2\Debug\node2.d">
       <SubType>compile</SubType>
     </None>
-    <None Include="node1\Debug\byggern.lss">
+    <None Include="node2\Debug\node2.map">
       <SubType>compile</SubType>
     </None>
-    <None Include="node1\Debug\byggern.map">
+    <None Include="node2\Debug\node2.o">
       <SubType>compile</SubType>
     </None>
-    <None Include="node1\Debug\byggernlib\adc.d">
+    <None Include="node2\node2.atsuo">
       <SubType>compile</SubType>
     </None>
-    <None Include="node1\Debug\byggernlib\adc.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\can.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\can.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\extmem.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\extmem.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\joystick.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\joystick.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\MCP2515.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\MCP2515.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\menu.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\menu.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\menus.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\menus.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\oled.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\oled.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\serialio.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\serialio.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\spi.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\spi.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\sram.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\byggernlib\sram.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\Main.d">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\Main.o">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\makedep.mk">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="node1\Debug\Makefile">
+    <None Include="node2\node2\node2.atsuo">
       <SubType>compile</SubType>
     </None>
   </ItemGroup>

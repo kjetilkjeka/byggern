@@ -1,9 +1,10 @@
 #include <avr/io.h>
+#include "spi.h"
 
 void SPI_Init(void)
 {
 	/* Set MOSI and SCK output, all others input */
-	DDRB = (1<<DDB5)|(1<<DDB7)|(1<<DDB4);
+	DDRB = (1<<MOSI)|(1<<SCK)|(1<<SS);
 	/* Enable SPI, Master, set clock rate fck/16 */
 	SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0);
 	SPI_CS(0);
@@ -21,11 +22,12 @@ char SPI_Transmit(char cData)
 
 void SPI_CS(int ss)
 {
+	//printf("SS is: %u \n\r", SS);
 	if(ss)
 	{
-		PORTB = PINB&(~(1<<DDB4)); //set SS low		
+		PORTB = PINB&(~(1<<SS)); //set SS low		
 	} else 
 	{
-		PORTB = PINB|(1<<DDB4); // set SS high again	
+		PORTB = PINB|(1<<SS); // set SS high again	
 	}
 }

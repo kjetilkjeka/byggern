@@ -1,6 +1,21 @@
 #ifndef MCP2515_H_
 #define MCP2515_H_
 
+
+#if defined (__AVR_ATmega128__)
+#define CANINT_vect INT4_vect
+#define CANINT INT4
+#elif defined(__AVR_ATmega162__)
+#define CANINT_vect INT0_vect
+#endif CANINT INT0
+
+
+
+#define NORMAL_MODE 0x00
+#define LOOPBACK_MODE 0b01000000
+
+
+
 #define BFPCTRL 0x0c
 #define TXRTSCTRL 0x0d
 #define CANSTAT 0x0e

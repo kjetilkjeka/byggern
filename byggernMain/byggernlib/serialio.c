@@ -1,6 +1,8 @@
 #include <avr/io.h>
 #include <stdlib.h>
 
+#include "serialio.h"
+
 void USART_Transmit_String(unsigned char * transmitString )
 {
 	int i;
@@ -22,8 +24,7 @@ void USART_Transmit( unsigned char data )
 unsigned char USART_Receive( void )
 {
 	// Wait for data to be received
-	while ( !(UCSR0A & (1<<RXC0)) )
-	;
+	while ( !(UCSR0A & (1<<RXC0)) );
 	// Get and return received data from buffer
 	return UDR0;
 }
@@ -35,10 +36,12 @@ void USART_Init( unsigned int ubrr )
 	UBRR0H = (unsigned char)(ubrr>>8);
 	UBRR0L = (unsigned char)ubrr;
 	/* Enable receiver and transmitter */
-	UCSR0B = (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0);
+	UCSR0B = MYUSCR0B;
 	/* Set frame format: 8data, 2stop bit */
-	UCSR0C = (1<<URSEL0)|(1<<USBS0)|(3<<UCSZ00);
+	UCSR0C = MYUCSR0C;
 }
+
+
 
 
 void USART_Flush( void )

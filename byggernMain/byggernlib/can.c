@@ -1,37 +1,52 @@
 #include "MCP2515.h"
 #include <avr/delay.h>
-
+#include <avr/io.h>
 
 void CAN_init()
 {
+	printf("CAN is initializing\n\r");
+	// enabling the interupt pin
+	// for atmega 162
+	//MCUCR &= 0b11110000; // interupt on low
+	//GICR = GICR | 0b01000000; // enable interupt on INT0
+	
+	//for atmega 128
+	EICRB |= (1<<ISC51);
+	EICRB &= 0xff ^ (1<<ISC50);
+	EIMSK |= (1<<CANINT); //CANINT er INT4
+	
+	
+	// initialize CNF stuff
+	MCP_write(CNF1, 0b01000001);
+	MCP_write(CNF2, 0b00001001);
+	MCP_write(CNF3, );
+	
+	
 	MCP_reset();
-	printf("CAN is initilizing\n\r");	
+		
+	MCP_write(CANINTE, (1<<RX0IE)|(1<<RX1IE)); //only interupt on RX
 	
 	MCP_write(CANINTF, 0x00);
-	MCP_bitModify(CANINTE, 1<<TX0IE, 0x00); // set the interupt off. (maybe put this in init?)
+	
 	CAN_initRecieve();
 	
-	CAN_modeSelect(010);
+	CAN_modeSelect(NORMAL_MODE);
 	
-	printf("CAN initialization is compelete \n\r");
+	printf("CAN initialization is complete \n\r");
 }
 
 void CAN_modeSelect(int mode)
 {
-	switch (mode)
-	{
-		case 010: //loopback mode
-			MCP_bitModify(CANCTRL,0b11100000, 0b01000000);
-			while((MCP_read(CANCTRL) & 0b11100000)^0b01000000); // waiting for CAN to have entered loopback mode
-			break;
-		default:
-			printf("mode select failed");
-	}		
+		
+	MCP_bitModify(CANCTRL,0b11100000, mode);
+	while((MCP_read(CANCTRL) & 0b11100000)^mode); // waiting for CAN to have entered correct mode
+	printf("mode selected \n\r");
+	
 }
 
 void CAN_initRecieve()
 {
-	MCP_bitModify(RXB0CTRL, 0b01100100, 0b01100100); //some recieve filter stuff
+	MCP_bitModify(RXB0CTRL, 0b01100100, 0b01100100); //some receive filter stuff
 	MCP_bitModify(RXB1CTRL, 0b01100000, 0b01100000);
 }
 
@@ -87,6 +102,7 @@ void CAN_send(uint16_t ID, int dataByte, int* data)
 	CAN_setData(buffer, dataByte, data);
 		
 	MCP_RTS(1<<buffer);
+	printf("TXBnCTRL is %u \n\r", MCP_read(TXB0CTRL));
 }
 
 int CAN_readID(int buffer)
@@ -102,16 +118,10 @@ int CAN_readID(int buffer)
 
 int CAN_recieve(int * dataByte, int * data)
 {
-	int buffer = 0;
-	if(buffer < 0 || buffer > 1)
-	{
-		printf("Recieve buffer, %u, does not exist\n\r", buffer);
-		return;
-	}
 	
-	
-	while((MCP_read(CANINTF) & (1<<RX0IF)) == 0); // wait untill the interupt flag in the buffer is one
-	
+	int buffer = 0;	
+	while((MCP_read(CANINTF) & (1<<(RX0IF + buffer))) == 0) // wait untill the interupt flag in the buffer is one
+		buffer = (buffer+1) %2 ;
 	
 	
 	int ID = CAN_readID(buffer);
@@ -123,8 +133,6 @@ int CAN_recieve(int * dataByte, int * data)
 	}
 	
 	
-
-	MCP_bitModify(CANINTF, 1<<RX0IF, 0x00); // turn off the interupt flag after reading
 	return ID;
 	
 }
