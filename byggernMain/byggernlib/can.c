@@ -10,16 +10,11 @@ void CAN_init()
 	//MCUCR &= 0b11110000; // interupt on low
 	//GICR = GICR | 0b01000000; // enable interupt on INT0
 	
+	
 	//for atmega 128
 	EICRB |= (1<<ISC51);
 	EICRB &= 0xff ^ (1<<ISC50);
 	EIMSK |= (1<<CANINT); //CANINT er INT4
-	
-	
-	// initialize CNF stuff
-	MCP_write(CNF1, 0b01000001);
-	MCP_write(CNF2, 0b00001001);
-	MCP_write(CNF3, );
 	
 	
 	MCP_reset();
@@ -102,6 +97,7 @@ void CAN_send(uint16_t ID, int dataByte, int* data)
 	CAN_setData(buffer, dataByte, data);
 		
 	MCP_RTS(1<<buffer);
+	_delay_us(100);
 	printf("TXBnCTRL is %u \n\r", MCP_read(TXB0CTRL));
 }
 

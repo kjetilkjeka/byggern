@@ -1,11 +1,21 @@
 Service , Message , Max , Min , Average , Count , frequency , TimedOut
 
-Stream,setLogBits,8,2,5,2,0
-Tool,setupTool,27,5,0.590824049037252,31,0
-Tool,getContext,6,1,0.0328024100790871,62,0
-Tool,connect,1594,7,0.300440697486524,31,0
-Tool,setProperties,34,12,0.629696780459304,31,0
-Device,getContext,3.0006,1,0.0677953305204087,31,0
-Processes,launch,741,8,23.9208149202845,31,0
-Tool,tearDownTool,1108,85,35.1263966018942,31,0
-Tool,getTargetVoltage,3,2,2.5,2,0
+Stream,setLogBits,8.0008,2.0002,5.0005,2,0
+Tool,setupTool,54.0054,6.0006,0.386510893184315,27,0
+Tool,getContext,43.0043,1,0.0377561441762905,54,0
+Tool,connect,1562.1562,7,0.385235975132779,27,0
+Tool,setProperties,36.0036,11,0.611893692707445,27,0
+Device,getContext,2.0002,0,0.0756174041965567,27,0
+Processes,launch,1100.11,61.0061,27.0803559242292,27,0
+Tool,getTargetVoltage,4.0004,4.0004,4.0004,1,0
+Tool,tearDownTool,1180.118,88,4.28795982645117,27,0
+Processes,getContext,17.0017,17.0017,17.0017,1,0
+RunControl,getContext,2.0002,2.0002,2.0002,1,0
+Memory,getChildren,2.0002,2.0002,2.0002,1,0
+RunControl,setProperties,2.0002,2.0002,2.0002,1,0
+Memory,getContext,2.0002,1.0001,0.223633472222222,6,0
+RunControl,resume,3.0003,2.0002,2.50025,2,0
+Trace,getChildren,3.0003,3.0003,3.0003,1,0
+StackTrace,getChildren,285.0285,285.0285,285.0285,1,0
+Expressions,compute,50.005,50.005,50.005,1,0
+Processes,terminate,445.0445,445.0445,445.0445,1,0

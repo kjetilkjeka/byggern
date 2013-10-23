@@ -18,17 +18,32 @@ void mainInit()
 	
 }
 
+
+
+
 int main(void)
 {
 	
 	mainInit();	
-	
 	
 	int dataBytes[8];
 	dataBytes[0] = 13;
 	dataBytes[1] = 72;
 	dataBytes[2] = 95;
 	CAN_send(11, 3, dataBytes);
+	
+	printf("EFLG is: %u \n\r", MCP_read(EFLG));
+	
+	DDRE = (1<<PE3);
+	
+	ICR3 = 160000; // this is 16bit must fix safe initialization
+	OCR3A = 160000/2;
+	
+	// this register is correct
+	
+	TCCR3A = (1<<COM3A1)|(1<<WGM31); // toggle OC1A on comperator match (check wether its toggle or set)
+	TCCR3B = (1<<WGM32)|(1<<WGM33)|(1<<CS30);
+	
 	
 	
     while(1)
