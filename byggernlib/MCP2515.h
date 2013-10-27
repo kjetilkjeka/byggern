@@ -1,3 +1,6 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
 #ifndef MCP2515_H_
 #define MCP2515_H_
 
@@ -7,7 +10,11 @@
 #define CANINT INT4
 #elif defined(__AVR_ATmega162__)
 #define CANINT_vect INT0_vect
-#endif CANINT INT0
+#define CANINT INT0
+#elif defined(__AVR_AT90USB1287__)
+#define CANINT_vect INT0_vect
+#define CANINT INT0
+#endif
 
 
 

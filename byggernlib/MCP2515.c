@@ -1,4 +1,5 @@
 #include "spi.h"
+//#define F_CPU 16E6
 #include <avr/delay.h>
 #include "MCP2515.h"
 

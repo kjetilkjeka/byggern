@@ -15,6 +15,13 @@
 #define MOSI DDB5
 #define MISO DDB6
 #define SCK DDB7
+#elif defined(__AVR_AT90USB1287__)
+#define SS DDB0
+#define MOSI DDB2
+#define MISO DDB3
+#define SCK DDB1
+
+
 #endif
 
 

@@ -3,7 +3,7 @@
 
 
 void CAN_init();
-void CAN_send(uint16_t ID, int dataByte, int* data);
+void CAN_send(uint16_t cid, int dataByte, int* data);
 int CAN_recieve(int* dataByte, int* data);
 
 

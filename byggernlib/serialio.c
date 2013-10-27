@@ -3,6 +3,7 @@
 
 #include "serialio.h"
 
+
 void USART_Transmit_String(unsigned char * transmitString )
 {
 	int i;
@@ -13,39 +14,46 @@ void USART_Transmit_String(unsigned char * transmitString )
 	
 }
 
+
+
+
 void USART_Transmit( unsigned char data )
 {
 	//Wait for empty transmit buffer
-	while ( !( UCSR0A & (1<<UDRE0)) ); // while(!UDRE0)
+	while ( !( UCSRnA & (1<<UDREn)) );
 	// Put data into buffer, sends the data
-	UDR0 = data;
+	UDRn = data;
 }
+
 
 unsigned char USART_Receive( void )
 {
 	// Wait for data to be received
-	while ( !(UCSR0A & (1<<RXC0)) );
+	while ( !(UCSRnA & (1<<RXCn)) );
 	// Get and return received data from buffer
-	return UDR0;
+	return UDRn;
 }
 
 
-void USART_Init( unsigned int ubrr )
+void USART_Init(unsigned int baud)
 {
-	/* Set baud rate */
-	UBRR0H = (unsigned char)(ubrr>>8);
-	UBRR0L = (unsigned char)ubrr;
-	/* Enable receiver and transmitter */
-	UCSR0B = MYUSCR0B;
-	/* Set frame format: 8data, 2stop bit */
-	UCSR0C = MYUCSR0C;
+	//Set baud rate
+	UBRRnH = (unsigned char)(baud>>8);
+	UBRRnL = (unsigned char)baud;
+	//Enable receiver and transmitter
+	UCSRnB = MYUCSRnB;
+	// Set frame format: 8data, 2stop bit
+	UCSRnC = MYUCSRnC;
 }
-
-
 
 
 void USART_Flush( void )
 {
 	unsigned char dummy;
-	while ( UCSR0A & (1<<RXC0) ) dummy = UDR0;
+	while ( UCSRnA & (1<<RXCn) ) dummy = UDRn;
 }
+
+
+
+
+
