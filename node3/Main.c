@@ -7,6 +7,9 @@
 #include "../byggernlib/spi.h"
 #include "../byggernlib/MCP2515.h"
 #include "../byggernlib/can.h"
+#include "../byggernlib/command.h"
+
+
 
 void mainInit()
 {
@@ -15,7 +18,8 @@ void mainInit()
 	fdevopen(USART_Transmit, USART_Transmit);
 	SPI_Init();
 	CAN_init();
-	//SERVO_init();
+	OLED_init();
+	SLIDER_init();
 	sei();
 	
 	
@@ -27,29 +31,21 @@ int main(void)
 {
 	mainInit();
 	
+	OLED_blankScreen();
+	OLED_writeString("lolletylol");
 	
-	int dataBytes[8];
-	dataBytes[0] = 13;
-	dataBytes[1] = 72;
-	dataBytes[2] = 95;
-	CAN_send(8, 3, dataBytes);
-	
-	
-	
-	printf("finally shit is working as it should");
-
-
-
 	
     while(1)
 	{
-		//MCP_write(CANCTRL, 0b00000000);
-		//printf("CANTRL er: %u \n\r", MCP_read(CANINTF));
 		
-		//SPI_Transmit(0b01010101);
-		//_delay_ms(1000);
+		
+		//printf("ls is %u, rs is %u, lb is %u, rb is %u", ls, rs, lb, rb);
+		SLIDER_poll();
+		_delay_ms(10);
+		
 	}
 }
+
 
 ISR(CANINT_vect)
 {

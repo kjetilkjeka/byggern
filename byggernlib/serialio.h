@@ -11,10 +11,10 @@
 #define UBRRnH UBRR0H
 #define UBRRnL UBRR0L
 #define UCSRnA UCSR0A
-#define UCSRnB USCR0B
+#define UCSRnB UCSR0B
 #define UCSRnC UCSR0C
 
-#define RXC RXC0
+#define RXCn RXC0
 
 #define MYUCSRnC ((1<<USBS0)|(3<<UCSZ00))
 #define MYUCSRnB (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0)

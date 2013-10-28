@@ -26,14 +26,14 @@
     <com_atmel_avrdbg_tool_jtagicemkii>
       <ToolType>com.atmel.avrdbg.tool.jtagicemkii</ToolType>
       <ToolName>JTAGICE mkII</ToolName>
-      <ToolNumber>00B0000066B5</ToolNumber>
+      <ToolNumber>00B00000668D</ToolNumber>
       <KeepTimersRunning>true</KeepTimersRunning>
       <OverrideVtor>false</OverrideVtor>
       <OverrideVtorValue>
       </OverrideVtorValue>
       <Channel>
         <host>127.0.0.1</host>
-        <port>54500</port>
+        <port>64864</port>
         <ssl>False</ssl>
       </Channel>
       <ToolOptions>
@@ -114,6 +114,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\can.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\command.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\command.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\servo.c">

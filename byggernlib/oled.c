@@ -1,19 +1,27 @@
 #include "font_5x7.h"
 #include "serialio.h"
+#define F_CPU 8e6
+#include <avr/delay.h>
 #include <avr/pgmspace.h>
+#include "oled.h"
 
-volatile char *OLEDcommand = 0x1000;
-volatile char *OLEDdata = 0x1200;
+volatile char *OLEDcommand = 0x2100;
+volatile char *OLEDdata = 0x2100;
 
 
 void write_c(char c)
 {
+	// set to command
+	PORTC &= 0xff^(1<<DC);
+	_delay_us(10);
 	*OLEDcommand = c;
 	
 }
 
 void OLED_writeData(char c)
 {
+	PORTC |= (1<<DC);
+	_delay_us(10);
 	*OLEDdata = c;
 }
 
@@ -74,6 +82,14 @@ void OLED_writeString(char* s, int highlighted)
 
 void OLED_init(void)
 {
+	XMCRA |= (1<<SRE); // setting SRE mode (wich will allow us to use the external memory interface)
+	XMCRB |= (1<<XMM2)|(1<XMM1)|(1<<XMM0);
+		
+	DDRC = (1<<CS)|(1<<DC);
+	PORTC = 0; // to chip select
+	printf("PINC is %u \n\r", PINC);
+	
+	
 	write_c(0xae); // display off
 	write_c(0xa1); //segment remap
 	write_c(0xda); //common pads hardware: alternative

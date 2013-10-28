@@ -1,3 +1,4 @@
+#include <stdio.h>
 
 #ifndef SERVO_H_
 #define SERVO_H_

@@ -118,7 +118,7 @@ int CAN_readID(int buffer)
 	int cid=((int)b>>5);
 	cid =cid+ ((int)a<<3);
 	
-	return ID;
+	return cid;
 }
 
 int CAN_recieve(int * dataByte, int * data)
