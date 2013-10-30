@@ -11,18 +11,18 @@ void CAN_init()
 	//MCUCR &= 0b11110000; // interupt on low
 	//GICR = GICR | 0b01000000; // enable interupt on INT0
 	
-	/*
+
 	//for atmega 128
-	EICRB |= (1<<ISC51);
-	EICRB &= 0xff ^ (1<<ISC50);
-	EIMSK |= (1<<CANINT); //CANINT er INT4
-	*/
+	EICRB |= (1<<ISC41);
+	EICRB &= 0xff ^ (1<<ISC40);
+	EIMSK |= (1<<INT4); //CANINT er INT4
+
 	
-	
+	/*	
 	// for usb thingy
 	EICRB |= (1<<ISC01);
 	EIMSK |= (1<<CANINT);
-	
+	*/
 	
 	
 	MCP_reset();
@@ -127,9 +127,12 @@ int CAN_recieve(int * dataByte, int * data)
 	int buffer = 0;	
 	while((MCP_read(CANINTF) & (1<<(RX0IF + buffer))) == 0) // wait untill the interupt flag in the buffer is one
 		buffer = (buffer+1) %2 ;
+		
+	
 	
 	
 	int cid= CAN_readID(buffer);
+	
 	*dataByte = (MCP_read(RXB0DLC + 16*buffer)&0b1111);
 	
 	for(int i = 0; i < *dataByte; i++)

@@ -3,26 +3,29 @@
 #define F_CPU 8E6
 #endif
 #include <avr/delay.h>
+#include <avr/interrupt.h>
 
 void SERVO_init()
 {
-	DDRE = (1<<PE3);
+	DDRB |= (1<<PB6);
 	
-	
-	ICR3 = 20000; // this is 16bit must fix safe initialization
-	OCR3A = 1500;
+	cli();
+	ICR1 = 20000; // this is 16bit must fix safe initialization
+	OCR1B = 1500;
 	
 	// this register is correct
 	
-	TCCR3A = (1<<COM3A1)|(1<<WGM31); // toggle OC1A on comperator match (check wether its toggle or set)
-	TCCR3B = (1<<WGM32)|(1<<WGM33)|(1<<CS31);
-	
+	TCCR1A = (1<<COM1B1)|(1<<WGM11); // toggle OC1B on comperator match (check wether its toggle or set)
+	TCCR1B = (1<<WGM12)|(1<<WGM13)|(1<<CS11);
+	sei();
 }
 
 void SERVO_set(uint16_t posision)
 {
+	cli();
 	posision &= 0b1111111111; // mask out higher bits (only want values from 0 to 1023);
-	OCR3A = 988 + posision;
+	OCR1B = 988 + posision;
+	sei();
 }
 
 

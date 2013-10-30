@@ -104,12 +104,6 @@
     <Folder Include="node2\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="byggernlib\adc.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="byggernlib\adc.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="byggernlib\can.c">
       <SubType>compile</SubType>
     </Compile>
@@ -120,6 +114,18 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\command.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\IR.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\IR.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\motor.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="byggernlib\motor.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\servo.c">
@@ -134,22 +140,10 @@
     <Compile Include="byggernlib\font_5x7.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="byggernlib\joystick.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="byggernlib\joystick.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="byggernlib\MCP2515.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\MCP2515.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="byggernlib\menu.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="byggernlib\menu.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="byggernlib\oled.c">
@@ -173,10 +167,10 @@
     <Compile Include="byggernlib\spi.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="byggernlib\sram.c">
+    <Compile Include="byggernlib\TWI_Master.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="byggernlib\sram.h">
+    <Compile Include="byggernlib\TWI_Master.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="node2\Main.c">

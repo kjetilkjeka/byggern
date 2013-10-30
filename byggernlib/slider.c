@@ -1,3 +1,5 @@
+#include "command.h"
+
 void SLIDER_init()
 {
 	touch_init(30, 30, 30, 30);
@@ -25,7 +27,8 @@ void SLIDER_poll()
 	}
 	if(rs_old != rs)
 	{
-		
+		COMMAND_setMotor(rs);
+		rs_old = rs;	
 	}
 	if(lb_old != lb)
 	{
