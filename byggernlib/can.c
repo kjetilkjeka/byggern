@@ -11,14 +11,14 @@ void CAN_init()
 	//MCUCR &= 0b11110000; // interupt on low
 	//GICR = GICR | 0b01000000; // enable interupt on INT0
 	
-
+	
 	//for atmega 128
 	EICRB |= (1<<ISC41);
 	EICRB &= 0xff ^ (1<<ISC40);
 	EIMSK |= (1<<INT4); //CANINT er INT4
-
 	
-	/*	
+	
+	/*
 	// for usb thingy
 	EICRB |= (1<<ISC01);
 	EIMSK |= (1<<CANINT);

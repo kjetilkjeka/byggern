@@ -10,11 +10,7 @@
 #include "../byggernlib/command.h"
 #include "../byggernlib/IR.h"
 #include "../byggernlib/TWI_Master.h"
-
-
-
-
-
+#include "../byggernlib/motor.h"
 
 
 
@@ -61,19 +57,16 @@ int main(void)
 	
 	//printf("EFLG is: %u \n\r", MCP_read(EFLG));
 	//MCP_write(CANINTF, 0x00); // turn off the interupt flag after reading
+	/*
 	MOTOR_enable(1);
-	MOTOR_setSpeed(50);
-	
+	MOTOR_setSpeed(100);
+	int speed = 10;
+	*/
     while(1)
     {
-		
-		//_delay_ms(1000);
-		//printf("still wake \n\r");
-		
-		MOTOR_dir(0);
-		_delay_ms(2000);
-		MOTOR_dir(1);
-		_delay_ms(2000);
+		//MOTOR_updatePos();
+		_delay_ms(1000);
+		printf("encoder is %u \n\r", MOTOR_readEncoder());
 		
 	}
 }
@@ -90,6 +83,7 @@ ISR(CANINT_vect)
 	COMMAND_doCommand(cid, dataByte, result);
 	
 	MCP_write(CANINTF, 0x00); // turn off the interupt flag after reading
+	
 	sei();
 }
 

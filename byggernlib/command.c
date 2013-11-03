@@ -23,6 +23,7 @@ void COMMAND_setMotor(uint8_t pos)
 	CAN_send(MOTOR, 1, data);
 }
 
+
 void COMMAND_doCommand(uint16_t cid, int dataByte, int* data)
 {
 	uint16_t angle;
@@ -41,6 +42,8 @@ void COMMAND_doCommand(uint16_t cid, int dataByte, int* data)
 			// check that dataBytes == 1
 			pos = data[0];
 			printf("pos er %u \n\r", pos);
+			if(TWI_Transceiver_Busy())
+				break;
 			if(pos > 128)
 			{
 				MOTOR_dir(1);
@@ -49,11 +52,12 @@ void COMMAND_doCommand(uint16_t cid, int dataByte, int* data)
 				MOTOR_dir(0);
 				MOTOR_setSpeed((pos^0xff) - 128);
 			}
-			_delay_ms(100);
 			break;
 			
 			
 			
 	}
+
 	
 }
+

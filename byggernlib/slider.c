@@ -14,6 +14,7 @@ void SLIDER_poll()
 	static unsigned char rs_old;
 	static unsigned char lb_old;
 	static unsigned char rb_old;
+	
 	unsigned char ls;
 	unsigned char rs;
 	unsigned char lb;
@@ -24,11 +25,13 @@ void SLIDER_poll()
 	{
 		COMMAND_setServo(ls*4);
 		ls_old = ls;
+		
 	}
 	if(rs_old != rs)
 	{
-		COMMAND_setMotor(rs);
+		COMMAND_setMotor(rs - (unsigned char)30);
 		rs_old = rs;	
+		
 	}
 	if(lb_old != lb)
 	{
