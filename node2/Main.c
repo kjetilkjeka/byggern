@@ -11,7 +11,7 @@
 #include "../byggernlib/IR.h"
 #include "../byggernlib/TWI_Master.h"
 #include "../byggernlib/motor.h"
-
+#include "../byggernlib/solenoid.h"
 
 
 #define TWI_GEN_CALL         0x00  
@@ -32,12 +32,15 @@ void mainInit()
 	fdevopen(USART_Transmit, USART_Receive);
 	SPI_Init();
 	
-	CAN_init();
-	SERVO_init();
 	
+	CAN_init();
+	printf("ROFL\n\r");
+	SERVO_init();
+	printf("ROFL\n\r");
 
 	TWI_Master_Initialise();
-	
+	printf("ROFL\n\r");
+	SOLENOID_init();
 	MOTOR_init();
 	
 	sei();
@@ -52,7 +55,7 @@ int main(void)
 	
 	
 	mainInit();	
-	
+	printf("ROFL\n\r");
 
 	
 	//printf("EFLG is: %u \n\r", MCP_read(EFLG));
@@ -62,12 +65,54 @@ int main(void)
 	MOTOR_setSpeed(100);
 	int speed = 10;
 	*/
+	
+	//MOTOR_calibrate();
+	//MOTOR_setSpeed(0);
+	//MOTOR_setRef(128);
+	
+	
     while(1)
     {
-		//MOTOR_updatePos();
-		_delay_ms(1000);
-		printf("encoder is %u \n\r", MOTOR_readEncoder());
+		//MOTOR_updateSpeed();
+		//_delay_ms(10);
 		
+		//SOLENOID_fire();
+		//_delay_ms(2000);
+		
+		//printf("pos is %d \n\r", MOTOR_getPos());
+		
+		
+		/*
+		printf("pos is %d \n\r", MOTOR_getPos());
+		
+		MOTOR_setRef(128);
+		printf("Referance is %d \n\r", MOTOR_getRef());
+		for(int i = 0; i < 1000; i++)
+		{
+			MOTOR_updateSpeed();
+			_delay_ms(10);
+		}
+		
+		printf("pos is %d \n\r", MOTOR_getPos());
+		
+		MOTOR_setRef(0);
+		printf("Referance is %d \n\r", MOTOR_getRef());
+		for(int i = 0; i < 1000; i++)
+		{
+			MOTOR_updateSpeed();
+			_delay_ms(10);
+		}
+		
+		printf("pos is %d \n\r", MOTOR_getPos());
+		
+		MOTOR_setRef(255);
+		printf("Referance is %d \n\r", MOTOR_getRef());
+		for(int i = 0; i < 1000; i++)
+		{
+			MOTOR_updateSpeed();
+			_delay_ms(10);
+		}
+	*/
 	}
 }
 

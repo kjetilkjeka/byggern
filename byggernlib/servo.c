@@ -7,6 +7,7 @@
 
 void SERVO_init()
 {
+	
 	DDRB |= (1<<PB6);
 	
 	cli();
@@ -16,8 +17,11 @@ void SERVO_init()
 	// this register is correct
 	
 	TCCR1A = (1<<COM1B1)|(1<<WGM11); // toggle OC1B on comperator match (check wether its toggle or set)
+	
 	TCCR1B = (1<<WGM12)|(1<<WGM13)|(1<<CS11);
+	printf("lol1\n\r");
 	sei();
+	printf("lol2\n\r");
 }
 
 void SERVO_set(uint16_t posision)

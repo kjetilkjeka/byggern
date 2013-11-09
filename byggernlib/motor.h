@@ -35,11 +35,16 @@
 
 void MOTOR_init();
 int MOTOR_readEncoder();
+void MOTOR_calibrate();
 void MOTOR_dir(uint8_t dir);
 void MOTOR_setSpeed(uint8_t speed);
 void MOTOR_enable(uint8_t enable);
+void MOTOR_updateSpeed();
 void MOTOR_updatePos();
-int MOTOR_getPos();
+
+int16_t MOTOR_getPos();
+int16_t MOTOR_getRef();
+void MOTOR_setRef(int16_t newRef);
 
 
 #endif

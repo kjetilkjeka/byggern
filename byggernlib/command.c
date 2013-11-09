@@ -23,6 +23,12 @@ void COMMAND_setMotor(uint8_t pos)
 	CAN_send(MOTOR, 1, data);
 }
 
+void COMMAND_triggerSolenoid()
+{
+	int data[1];
+	CAN_send(FIRE, 0, data);
+}
+
 
 void COMMAND_doCommand(uint16_t cid, int dataByte, int* data)
 {
@@ -41,23 +47,15 @@ void COMMAND_doCommand(uint16_t cid, int dataByte, int* data)
 		case(MOTOR):
 			// check that dataBytes == 1
 			pos = data[0];
-			printf("pos er %u \n\r", pos);
-			if(TWI_Transceiver_Busy())
-				break;
-			if(pos > 128)
-			{
-				MOTOR_dir(1);
-				MOTOR_setSpeed(pos-128);
-			} else {
-				MOTOR_dir(0);
-				MOTOR_setSpeed((pos^0xff) - 128);
-			}
+			pos = 255 - pos;
+			MOTOR_setRef((int16_t)pos);
 			break;
 			
-			
+		case(FIRE):
+			SOLENOID_fire();
+			break;
 			
 	}
 
-	
 }
 

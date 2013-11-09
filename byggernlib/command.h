@@ -11,5 +11,6 @@
 void COMMAND_doCommand(uint16_t cid, int dataByte, int* data);
 void COMMAND_setServo(uint16_t angle);
 void COMMAND_setMotor(uint8_t pos);
+void COMMAND_triggerSolenoid();
 
 #endif 

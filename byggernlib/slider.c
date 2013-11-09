@@ -33,13 +33,26 @@ void SLIDER_poll()
 		rs_old = rs;	
 		
 	}
-	if(lb_old != lb)
+	
+	if(lb)
 	{
-		
+		if(lb_old == 0)
+			COMMAND_triggerSolenoid();		
+			
+		lb_old = 1;
+	} else {
+		lb_old = 0;
 	}
-	if(rb_old != rb)
+	
+	
+	if(rb)
 	{
+		if(rb_old == 0)
+			COMMAND_triggerSolenoid();	
 		
+		rb_old = 1;
+	} else {
+		rb_old = 0;
 	}
 	
 	

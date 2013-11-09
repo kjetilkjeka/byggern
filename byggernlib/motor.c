@@ -2,32 +2,57 @@
 #define F_CPU 8E6
 #include <avr/delay.h>
 
+
+
+static int16_t min;
+static int16_t max;
+static int16_t referance;
+static float integrator;
+
+
+
 void MOTOR_init()
 {
-	DDRMJ2 = 0x00; //MJ2 inverted
+	DDRMJ2 = 0x00;
+	DDRMJ1 = 0b11111000;
 	
-	DDRMJ1 = 0b11111000; //MJ1 inverted
-	MOTOR_enable(1);
+	
+	PORTMJ1 &= (0xff^(1<<MOTOR_OE));	
 	MOTOR_resetCounter();
+	//MOTOR_setRef(0);
+	MOTOR_enable(1);
 	printf("motor is initiated\n\r");
 
 }
 
-int MOTOR_readEncoder()
+
+
+uint8_t lookup[16] = {
+	0x0, 0x8, 0x4, 0xC,
+	0x2, 0xA, 0x6, 0xE,
+	0x1, 0x9, 0x5, 0xD,
+	0x3, 0xB, 0x7, 0xF }; // this table is used in flip;
+
+uint8_t flip( uint8_t n )
 {
-	int value = 0;
-	PORTMJ1 &= (0xff^(1<<MOTOR_OE));		// set OE low to enable output
+	return (lookup[n&0x0F] << 4) | lookup[n>>4];
+}
+
+int16_t MOTOR_readEncoder()
+{
+	volatile int16_t value = 0;
+	PORTMJ1 &= (0xff^(1<<MOTOR_OE));	// set OE low to enable output
 	PORTMJ1 &= (0xff^(1<<MOTOR_SEL));	// set SEL low to get high byte
 	_delay_us(20);						// delay 20 microseconds
-	value = (PINMJ2<<8);				// read MSB
+	value = (flip(PINMJ2)<<8); //<<8	// read MSB
 	PORTMJ1 |= (1<<MOTOR_SEL);			// set SEL high to get low byte
 	_delay_us(20);						// wait 20 us
-	value += PINMJ2;						// read LSB
-	PORTMJ1 &= (0xff^(1<<MOTOR_RST));	// toggle reset to reset encoder
-	PORTMJ1 |= (1<<MOTOR_RST);
+	value += flip(PINMJ2);				// read LSB
+	//MOTOR_resetCounter();				// toggle reset to reset encoder
 	PORTMJ1 |= (1<<MOTOR_OE);			// set OE high to disable output
 	return value;
 }
+
 
 
 void MOTOR_dir(uint8_t dir) // 1 er høyre
@@ -64,45 +89,85 @@ void MOTOR_enable(uint8_t enable)
 }
 
 
-void MOTOR_updatePos()
-{
-	int encoder = 0;
-	//PORTMJ1 = PINMJ1 | (1<<MOTOR_SEL);
-	/*
-	for(int i = 0; i<8; i++)
-	{
-		encoder |= ((PINMJ2 & (DO0-i)) << i);	
-	}
-	*/
-	encoder = PINMJ2;
-	// high bits as well
-	//MOTOR_resetCounter();
-	
-	MOTOR_setPos(((int8_t)encoder));
-	if(encoder != 0)
-		printf("encoder is %u \n\r", encoder);
-		
-}
-
 
 void MOTOR_resetCounter()
 {
 	
 	PORTMJ1 &= (0xff ^ (1<<MOTOR_RST));
+	_delay_ms(20);
 	PORTMJ1 |= (1<<MOTOR_RST);
 	
+}
+
+
+void MOTOR_calibrate()
+{
+	
+	MOTOR_dir(1);
+	MOTOR_setSpeed(80);
+	_delay_ms(5000);
+	MOTOR_resetCounter();
+	min = MOTOR_readEncoder();
+	MOTOR_dir(0);
+	_delay_ms(5000);
+	max = MOTOR_readEncoder();
+	//MOTOR_setRef(max/2);
+	printf("min is %d and max is %d, ref is %u \n\r", min, max, referance);
+	MOTOR_dir(1);
+	_delay_ms(5000);
+	MOTOR_dir(0);
+	_delay_ms(500);
 	
 }
 
 
-int MOTOR_setPos(int moved)
+void MOTOR_updateSpeed()
 {
-	static int position;
-	position += moved;
-	return position;
+	
+	int16_t referancePos = referance;
+	int16_t pos = MOTOR_getPos();
+	int16_t speed = referancePos - pos;
+	
+	speed *= 4;
+	
+	if(speed > 150)
+		speed = 150;
+	
+	if(speed < -150)
+		speed = -150;
+	
+	
+	if(TWI_Transceiver_Busy())
+		return;
+	
+	if(speed > 0)
+	{
+		MOTOR_dir(0);
+		MOTOR_setSpeed(speed);
+	} else {
+		MOTOR_dir(1);
+		MOTOR_setSpeed(speed^0xff);
+	}
+		
 }
 
-int MOTOR_getPos()
+int16_t MOTOR_getPos() //working
 {
-	return MOTOR_setPos(0);
+	int32_t pos = MOTOR_readEncoder();
+	pos*=256;
+	pos/=max;
+	return (int16_t)pos;
+}
+
+void MOTOR_setRef(int16_t newRef)
+{
+	referance = newRef;
+	
+}
+
+
+
+int16_t MOTOR_getRef()
+{
+	return referance;
 }

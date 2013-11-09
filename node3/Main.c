@@ -34,15 +34,21 @@ int main(void)
 	OLED_blankScreen();
 	OLED_writeString("lolletylol");
 	
+	unsigned char ls;
+	unsigned char rs;
+	unsigned char lb;
+	unsigned char rb;
+	
 	
     while(1)
 	{
 		
 		
-		//printf("ls is %u, rs is %u, lb is %u, rb is %u", ls, rs, lb, rb);
+		//touch_measure(&ls, &rs, &lb, &rb);
 		SLIDER_poll();
+		//printf("ls is %u, rs is %u, lb is %u, rb is %u", ls, rs, lb, rb);
 		_delay_ms(10);
-		
+		//_delay_ms(1000);
 	}
 }
 
