@@ -7,7 +7,7 @@
 static int16_t min;
 static int16_t max;
 static int16_t referance;
-static float integrator;
+static int16_t integrator;
 
 
 
@@ -123,22 +123,39 @@ void MOTOR_calibrate()
 
 void MOTOR_updateSpeed()
 {
+	while(TWI_Transceiver_Busy())
+		_delay_ms(10);
+	
+	static int16_t old_error;
+	
+	int threashold = 80;
+	int16_t P = 8;
+	int16_t I = 0;
+	int16_t D = 0;
 	
 	int16_t referancePos = referance;
 	int16_t pos = MOTOR_getPos();
-	int16_t speed = referancePos - pos;
 	
-	speed *= 4;
+	int16_t error = referancePos - pos;
 	
-	if(speed > 150)
-		speed = 150;
+	integrator += old_error;
+	int16_t derivator = error - old_error;
+	//derivator = 0;
 	
-	if(speed < -150)
-		speed = -150;
+	int16_t speed = P*error + integrator/I + derivator*D;
+	
+		
+	//printf("trololol\n\r");
+		
+	old_error = error;
 	
 	
-	if(TWI_Transceiver_Busy())
-		return;
+	if(speed > threashold)
+		speed = threashold;
+	
+	if(speed < -threashold)
+		speed = -threashold;
+	
 	
 	if(speed > 0)
 	{
@@ -161,7 +178,10 @@ int16_t MOTOR_getPos() //working
 
 void MOTOR_setRef(int16_t newRef)
 {
+	//printf("integrator is %i \n\r", integrator);
+	//integrator = 0;
 	referance = newRef;
+	
 	
 }
 

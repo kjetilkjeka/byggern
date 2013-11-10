@@ -66,15 +66,15 @@ int main(void)
 	int speed = 10;
 	*/
 	
-	//MOTOR_calibrate();
-	//MOTOR_setSpeed(0);
-	//MOTOR_setRef(128);
+	MOTOR_calibrate();
+	MOTOR_setSpeed(0);
+	MOTOR_setRef(128);
 	
 	
     while(1)
     {
-		//MOTOR_updateSpeed();
-		//_delay_ms(10);
+		MOTOR_updateSpeed();
+		//_delay_ms(50);
 		
 		//SOLENOID_fire();
 		//_delay_ms(2000);
