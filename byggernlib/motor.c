@@ -1,6 +1,7 @@
 #include "motor.h"
 #define F_CPU 8E6
 #include <avr/delay.h>
+//#include <avr/interrupt.h>
 
 
 
@@ -19,8 +20,21 @@ void MOTOR_init()
 	
 	PORTMJ1 &= (0xff^(1<<MOTOR_OE));	
 	MOTOR_resetCounter();
-	//MOTOR_setRef(0);
+	
 	MOTOR_enable(1);
+	
+	MOTOR_calibrate();
+	MOTOR_setSpeed(0);
+	MOTOR_setRef(128);
+	
+	ICR3 = 40000; // this is 16bit must fix safe initialization
+	
+	TCCR3B = (1<<WGM32)|(1<<WGM33)|(1<<CS31);
+	ETIMSK |= (1<<TICIE3);
+	
+	
+	
+	
 	printf("motor is initiated\n\r");
 
 }
@@ -102,7 +116,7 @@ void MOTOR_resetCounter()
 
 void MOTOR_calibrate()
 {
-	
+	MOTOR_enable(1);
 	MOTOR_dir(1);
 	MOTOR_setSpeed(80);
 	_delay_ms(5000);
@@ -117,7 +131,7 @@ void MOTOR_calibrate()
 	_delay_ms(5000);
 	MOTOR_dir(0);
 	_delay_ms(500);
-	
+
 }
 
 
@@ -128,9 +142,9 @@ void MOTOR_updateSpeed()
 	
 	static int16_t old_error;
 	
-	int threashold = 80;
-	int16_t P = 8;
-	int16_t I = 0;
+	int threashold = 255;
+	int16_t P = 1;
+	int16_t I = 8;
 	int16_t D = 0;
 	
 	int16_t referancePos = referance;
@@ -138,7 +152,8 @@ void MOTOR_updateSpeed()
 	
 	int16_t error = referancePos - pos;
 	
-	integrator += old_error;
+	integrator += old_error;	
+	
 	int16_t derivator = error - old_error;
 	//derivator = 0;
 	
@@ -178,8 +193,8 @@ int16_t MOTOR_getPos() //working
 
 void MOTOR_setRef(int16_t newRef)
 {
-	//printf("integrator is %i \n\r", integrator);
-	//integrator = 0;
+	printf("integrator is %i \n\r", integrator);
+	integrator = 0;
 	referance = newRef;
 	
 	

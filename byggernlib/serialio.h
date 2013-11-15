@@ -17,7 +17,7 @@
 #define RXCn RXC0
 
 #define MYUCSRnC ((1<<USBS0)|(3<<UCSZ00))
-#define MYUCSRnB (1<<RXEN0)|(1<<TXEN0)|(1<<RXCIE0)
+#define MYUCSRnB (1<<RXEN0)|(1<<TXEN0)//|(1<<RXCIE0)
 #elif defined(__AVR_ATmega162__)
 #define FOSC 4915200UL		// Clock Speed
 

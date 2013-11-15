@@ -34,12 +34,12 @@ void mainInit()
 	
 	
 	CAN_init();
-	printf("ROFL\n\r");
+	
 	SERVO_init();
-	printf("ROFL\n\r");
+	
 
 	TWI_Master_Initialise();
-	printf("ROFL\n\r");
+	
 	SOLENOID_init();
 	MOTOR_init();
 	
@@ -55,8 +55,19 @@ int main(void)
 	
 	
 	mainInit();	
-	printf("ROFL\n\r");
+	
+	//USART_Init(MYUBRR);
+	//fdevopen(USART_Transmit, USART_Receive);
+	//printf("ROFL\n\r");
 
+	//DDRB |= (1<<PB6);
+	
+	/*
+	cli();
+	
+	
+	sei();
+	*/
 	
 	//printf("EFLG is: %u \n\r", MCP_read(EFLG));
 	//MCP_write(CANINTF, 0x00); // turn off the interupt flag after reading
@@ -66,53 +77,33 @@ int main(void)
 	int speed = 10;
 	*/
 	
-	MOTOR_calibrate();
-	MOTOR_setSpeed(0);
-	MOTOR_setRef(128);
 	
+	
+	printf("test");
+	
+	int i = 0;
+	uint8_t first;
+	uint8_t second;
 	
     while(1)
     {
-		MOTOR_updateSpeed();
-		//_delay_ms(50);
 		
-		//SOLENOID_fire();
-		//_delay_ms(2000);
+		first = 0;
+		second = 0;
 		
-		//printf("pos is %d \n\r", MOTOR_getPos());
+		first = (uint8_t)USART_Receive();
+		if(first != 0xff && first != 0xaa && first != 0x00) continue;
 		
+		second = (uint8_t)USART_Receive();
+		if(first == 0xff)
+			SERVO_set(second << 2);
+		if(first == 0xaa)
+			MOTOR_setRef(second);
+		if(first == 0x00 && second == 0x00)
+			SOLENOID_fire();
+			
+		//SERVO_set(second << 2);
 		
-		/*
-		printf("pos is %d \n\r", MOTOR_getPos());
-		
-		MOTOR_setRef(128);
-		printf("Referance is %d \n\r", MOTOR_getRef());
-		for(int i = 0; i < 1000; i++)
-		{
-			MOTOR_updateSpeed();
-			_delay_ms(10);
-		}
-		
-		printf("pos is %d \n\r", MOTOR_getPos());
-		
-		MOTOR_setRef(0);
-		printf("Referance is %d \n\r", MOTOR_getRef());
-		for(int i = 0; i < 1000; i++)
-		{
-			MOTOR_updateSpeed();
-			_delay_ms(10);
-		}
-		
-		printf("pos is %d \n\r", MOTOR_getPos());
-		
-		MOTOR_setRef(255);
-		printf("Referance is %d \n\r", MOTOR_getRef());
-		for(int i = 0; i < 1000; i++)
-		{
-			MOTOR_updateSpeed();
-			_delay_ms(10);
-		}
-	*/
 	}
 }
 
@@ -132,7 +123,10 @@ ISR(CANINT_vect)
 	sei();
 }
 
-
+ISR(TIMER3_CAPT_vect)
+{
+	MOTOR_updateSpeed();
+}
 
 ISR(IRINT_vect)
 {
