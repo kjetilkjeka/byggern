@@ -2,6 +2,7 @@
 #define F_CPU 8E6
 #include <avr/delay.h>
 #include <avr/interrupt.h>
+#include <stdbool.h>
 
 #include "../byggernlib/spi.h"
 #include "../byggernlib/MCP2515.h"
@@ -26,6 +27,11 @@
 #define READ_DATA_FROM_BUFFER 0x03
 
 
+bool irChanged = false;
+bool irLow = false;
+bool irCountingLow = false;
+int irCount = 0;
+
 void mainInit()
 {
 	USART_Init(MYUBRR);
@@ -37,11 +43,13 @@ void mainInit()
 	
 	SERVO_init();
 	
-
+	
 	TWI_Master_Initialise();
 	
 	SOLENOID_init();
 	MOTOR_init();
+	
+	IR_init();
 	
 	sei();
 		
@@ -56,26 +64,6 @@ int main(void)
 	
 	mainInit();	
 	
-	//USART_Init(MYUBRR);
-	//fdevopen(USART_Transmit, USART_Receive);
-	//printf("ROFL\n\r");
-
-	//DDRB |= (1<<PB6);
-	
-	/*
-	cli();
-	
-	
-	sei();
-	*/
-	
-	//printf("EFLG is: %u \n\r", MCP_read(EFLG));
-	//MCP_write(CANINTF, 0x00); // turn off the interupt flag after reading
-	/*
-	MOTOR_enable(1);
-	MOTOR_setSpeed(100);
-	int speed = 10;
-	*/
 	
 	
 	
@@ -84,6 +72,8 @@ int main(void)
 	int i = 0;
 	uint8_t first;
 	uint8_t second;
+	
+	
 	
     while(1)
     {
@@ -102,8 +92,86 @@ int main(void)
 		if(first == 0x00 && second == 0x00)
 			SOLENOID_fire();
 			
-		//SERVO_set(second << 2);
 		
+		
+	}
+}
+/*
+ISR (ADC_vect)
+
+{
+
+	if ((ADCH < IR_TRESHOLD) && !irLow)
+
+	{
+
+		irChanged = true;
+
+		irLow = true;
+
+	} else if ((ADCH >= IR_TRESHOLD) && irLow)
+	{
+
+		irChanged = true;
+
+		irLow = false;
+
+	}
+
+	if (!irLow && irChanged)
+
+	 {
+
+
+		irChanged = false;
+		printf("count is %i", IR_count());
+	 }	
+}
+*/
+
+ISR (ADC_vect)
+
+{
+
+	if ((ADCH < IR_TRESHOLD))
+
+	{
+		if(irCountingLow)
+			irCount++;
+		else
+			irCount = 0;
+			
+		irCountingLow = true;
+
+	} else if ((ADCH >= IR_TRESHOLD))
+	{
+
+		if(!irCountingLow)
+			irCount++;
+		else
+			irCount = 0;
+		
+		irCountingLow = false;
+
+	}
+
+	if (irCount >= 100)
+
+	{
+		if(irCountingLow && !irChanged)
+		{
+			
+			irChanged = true;
+			printf("count is %i \n\r", IR_count());
+		} 
+		
+		if(!irCountingLow) 
+		{
+			irChanged = false;
+		}		
+		
+		irCount = 0;
+			
 	}
 }
 
@@ -128,6 +196,7 @@ ISR(TIMER3_CAPT_vect)
 	MOTOR_updateSpeed();
 }
 
+/*
 ISR(IRINT_vect)
 {
 	cli();
@@ -146,6 +215,6 @@ ISR(IRINT_vect)
 	}
 	sei();
 }
-
+*/
 
 

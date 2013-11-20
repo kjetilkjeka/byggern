@@ -6,23 +6,9 @@
 void CAN_init()
 {
 	printf("CAN is initializing\n\r");
-	// enabling the interupt pin
-	// for atmega 162
-	//MCUCR &= 0b11110000; // interupt on low
-	//GICR = GICR | 0b01000000; // enable interupt on INT0
 	
 	
-	//for atmega 128
-	EICRB |= (1<<ISC41);
-	EICRB &= 0xff ^ (1<<ISC40);
-	EIMSK |= (1<<INT4); //CANINT er INT4
-	
-	
-	/*
-	// for usb thingy
-	EICRB |= (1<<ISC01);
-	EIMSK |= (1<<CANINT);
-	*/
+	CAN_interuptInit();
 	
 	
 	MCP_reset();
@@ -39,6 +25,26 @@ void CAN_init()
 	
 	printf("CAN initialization is complete \n\r");
 }
+
+
+void CAN_interuptInit()
+{
+	#if defined (__AVR_ATmega128__)
+	EICRB |= (1<<ISC41);
+	EICRB &= 0xff ^ (1<<ISC40);
+	EIMSK |= (1<<CANINT); //CANINT er INT4
+	
+	#elif defined(__AVR_ATmega162__)
+	MCUCR &= 0b11110000; // interupt on low
+	GICR = GICR | 0b01000000; // enable interupt on INT0
+		
+	#elif defined(__AVR_AT90USB1287__)
+	EICRB |= (1<<ISC01);
+	EIMSK |= (1<<CANINT);
+	
+	#endif
+}
+
 
 void CAN_modeSelect(int mode)
 {

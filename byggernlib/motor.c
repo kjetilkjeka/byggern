@@ -118,7 +118,7 @@ void MOTOR_calibrate()
 {
 	MOTOR_enable(1);
 	MOTOR_dir(1);
-	MOTOR_setSpeed(80);
+	MOTOR_setSpeed(60);
 	_delay_ms(5000);
 	MOTOR_resetCounter();
 	min = MOTOR_readEncoder();
@@ -142,22 +142,28 @@ void MOTOR_updateSpeed()
 	
 	static int16_t old_error;
 	
-	int threashold = 255;
-	int16_t P = 1;
+	int threashold = 180;
+	int windup = 50;
+	
+	int16_t P = 2;
 	int16_t I = 8;
-	int16_t D = 0;
+	int16_t D = 4;
 	
 	int16_t referancePos = referance;
 	int16_t pos = MOTOR_getPos();
 	
 	int16_t error = referancePos - pos;
 	
+	if (integrator>windup) integrator = windup;
+	if (integrator < -windup) integrator = -windup;
+	
+	
 	integrator += old_error;	
 	
 	int16_t derivator = error - old_error;
 	//derivator = 0;
 	
-	int16_t speed = P*error + integrator/I + derivator*D;
+	int16_t speed = P*error + integrator/I + derivator/D;
 	
 		
 	//printf("trololol\n\r");

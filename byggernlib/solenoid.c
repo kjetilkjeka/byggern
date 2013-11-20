@@ -4,13 +4,13 @@
 
 void SOLENOID_init()
 {
-	DDRF |= (1<<PF0);
+	DDRF |= (1<<PF3);
 
 }
 
 void SOLENOID_fire()
 {
-	PORTF |= (1<<PF0);
+	PORTF |= (1<<PF3);
 	_delay_ms(70);
-	PORTF &= ~(1<<PF0);
+	PORTF &= ~(1<<PF3);
 }
